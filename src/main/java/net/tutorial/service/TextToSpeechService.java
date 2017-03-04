@@ -18,7 +18,8 @@ public class TextToSpeechService {
     public TextToSpeechService(){
         TextToSpeechCredential t2sCred = new TextToSpeechCredential();
         t2s = new TextToSpeech();
-        t2s.setUsernameAndPassword(t2sCred.username, t2sCred.password);
+        // t2s.setUsernameAndPassword(t2sCred.username, t2sCred.password);
+        t2s.setUsernameAndPassword("a3a4eabb-ad65-43fa-baf0-d14ce6b1f5c5", "lxwAkqSmoL14");
     }
 
     public InputStream convert(String text){
