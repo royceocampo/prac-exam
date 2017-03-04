@@ -18,7 +18,7 @@ public class LanguageTranslationCredential {
             JSONParser parser = new JSONParser();
             Object obj = parser.parse(envServices);
             JSONObject jsonObject = (JSONObject) obj;
-            JSONArray vcapArray = (JSONArray) jsonObject.get("language_translation");
+            JSONArray vcapArray = (JSONArray) jsonObject.get("language_translator");
             JSONObject vcap = (JSONObject) vcapArray.get(0);
             JSONObject credentials = (JSONObject) vcap.get("credentials");
             username = credentials.get("username").toString();
