@@ -15,7 +15,8 @@ public class LanguageTranslationService {
     public LanguageTranslationService(){
         LanguageTranslationCredential ltCred = new LanguageTranslationCredential();
         lt = new LanguageTranslation();
-        lt.setUsernameAndPassword(ltCred.username, ltCred.password);
+        //lt.setUsernameAndPassword(ltCred.username, ltCred.password);
+        lt.setUsernameAndPassword("b97f9508-51b9-45a6-985e-5979a1b5c405", "5yhyk8PNFIoc");
     }
 
     public LanguageTranslationResult translate(String text, String frmLanguage, String toLanguage){
