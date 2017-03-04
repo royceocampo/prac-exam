@@ -1,1 +1,1 @@
-# prac-exam
+# bluemix-combined-services
