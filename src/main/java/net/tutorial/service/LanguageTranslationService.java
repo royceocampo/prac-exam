@@ -1,30 +1,40 @@
-package net.tutorial.service;
+package net.tutorial.utilities;
+import java.util.Map;
 
-import com.ibm.watson.developer_cloud.language_translation.v2.LanguageTranslation;
-import com.ibm.watson.developer_cloud.language_translation.v2.model.TranslationResult;
-import net.tutorial.service.credential.LanguageTranslationCredential;
-import net.tutorial.service.result.LanguageTranslationResult;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
-/**
- * Created by pongpantola.
- */
-public class LanguageTranslationService {
+import com.ibm.watson.developer_cloud.language_translator.v2.LanguageTranslator;
+import com.ibm.watson.developer_cloud.language_translator.v2.model.TranslationResult;
 
-    private LanguageTranslation lt;
+public class TranslatorService {
 
-    public LanguageTranslationService(){
-        LanguageTranslationCredential ltCred = new LanguageTranslationCredential();
-        lt = new LanguageTranslation();
-        //lt.setUsernameAndPassword(ltCred.username, ltCred.password);
-        lt.setUsernameAndPassword("b97f9508-51b9-45a6-985e-5979a1b5c405", "5yhyk8PNFIoc");
-    }
-
-    public LanguageTranslationResult translate(String text, String frmLanguage, String toLanguage){
-        TranslationResult tr = lt.translate(text, frmLanguage, toLanguage);
-
-        return new LanguageTranslationResult(tr.toString());
-    }
-
-
+	LanguageTranslator service;
+	
+	public TranslatorService() {
+		EnvVariables envVar = new EnvVariables();
+		Map<String, String> creds = envVar.getCredentials("language_translator");
+		service = new LanguageTranslator(creds.get("username"), creds.get("password"));
+	}
+	
+	public String getTranslation(String text, String modelId) {
+		TranslationResult result = service.translate(text, modelId + "-conversational").execute();
+		JSONParser parser = new JSONParser();
+		
+		try {
+			
+			JSONObject jsonTranslationResult = (JSONObject) parser.parse(result.toString() );
+			JSONArray jsonTranslations = (JSONArray) jsonTranslationResult.get("translations");
+			JSONObject jsonTranslation = (JSONObject) jsonTranslations.get(0);
+			
+			return jsonTranslation.get("translation").toString();
+			
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return "";
+		}
+	}
 
 }
